@@ -30,6 +30,13 @@ void Skybox_Draw(SkyboxContext* skyboxCtx, GraphicsContext* gfxCtx, s16 skyboxId
 
     // Prepare matrix
     sSkyboxDrawMatrix = GRAPH_ALLOC(gfxCtx, sizeof(Mtx));
+
+    // @recomp skip drawing skyboxes with null textures as they hurt performance due to the accidental framebuffer effects they incur.
+    // This needs to happen after sSkyboxDrawMatrix is allocated, otherwise the game will write to an invalid pointer later on which will cause a crash.
+    if (skyboxCtx->staticSegments[0] == NULL || skyboxCtx->staticSegments[1] == NULL) {
+        return;
+    }
+
     Matrix_Translate(x, y, z, MTXMODE_NEW);
     Matrix_Scale(1.0f, 1.0f, 1.0f, MTXMODE_APPLY);
     Matrix_RotateXFApply(skyboxCtx->rot.x);
