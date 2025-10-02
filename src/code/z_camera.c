@@ -2269,11 +2269,6 @@ s32 Camera_Normal1(Camera* camera) {
         camera->inputDir.y = spAC.yaw;
         camera->inputDir.z = 0;
 
-        // crit wiggle
-        if (gSaveContext.save.saveInfo.playerData.health <= 0x10) {
-            phi_v1_2 = ((s32)(camera->play->state.frames << 0x18) >> 0x15) & 0xFD68;
-            camera->inputDir.y += phi_v1_2;
-        }
     } else {
         D_801EDC30[camera->camId].swingUpdateRate = roData->unk_0C;
         D_801EDC30[camera->camId].unk_64 = 0;
