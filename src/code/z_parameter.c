@@ -3923,7 +3923,7 @@ void Magic_DrawMeter(PlayState* play) {
         if (gSaveContext.magicState == MAGIC_STATE_METER_FLASH_2) {
             // Yellow part of the meter indicating the amount of magic to be subtracted
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 250, 250, 0, interfaceCtx->magicAlpha);
-            gDPLoadTextureBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, G_IM_FMT_I, 16, 8, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             gSPTextureRectangle(OVERLAY_DISP++, 26 << 2, (magicBarY + 3) << 2,
                                 (((void)0, gSaveContext.save.saveInfo.playerData.magic) + 26) << 2,
@@ -3954,7 +3954,7 @@ void Magic_DrawMeter(PlayState* play) {
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 200, 0, interfaceCtx->magicAlpha);
             }
 
-            gDPLoadTextureBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, G_IM_FMT_I, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, gMagicMeterFillTex, G_IM_FMT_I, 16, 8, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
             gSPTextureRectangle(OVERLAY_DISP++, 26 << 2, (magicBarY + 3) << 2,
                                 (((void)0, gSaveContext.save.saveInfo.playerData.magic) + 26) << 2,
