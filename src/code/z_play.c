@@ -247,7 +247,6 @@ void Play_TriggerPictoPhoto(void) {
 }
 
 void Play_TakePictoPhoto(PreRender* prerender) {
-    PreRender_ApplyFilters(prerender);
     Play_ConvertRgba16ToIntensityImage(gHiBuffer.pictoPhotoI8, prerender->fbufSave, SCREEN_WIDTH, PICTO_PHOTO_TOPLEFT_X,
                                        PICTO_PHOTO_TOPLEFT_Y, (PICTO_PHOTO_TOPLEFT_X + PICTO_PHOTO_WIDTH) - 1,
                                        (PICTO_PHOTO_TOPLEFT_Y + PICTO_PHOTO_HEIGHT) - 1, 8);
@@ -391,7 +390,6 @@ void Play_Destroy(GameState* thisx) {
     Play_DestroyMotionBlur();
 
     if (R_PAUSE_BG_PRERENDER_STATE != PAUSE_BG_PRERENDER_OFF) {
-        PreRender_ApplyFiltersSlowlyDestroy(&this->pauseBgPreRender);
         R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
     }
 
@@ -1137,7 +1135,6 @@ void Play_DrawMain(PlayState* this) {
     f32 zFar;
 
     if (R_PAUSE_BG_PRERENDER_STATE >= PAUSE_BG_PRERENDER_UNK4) {
-        PreRender_ApplyFiltersSlowlyDestroy(&this->pauseBgPreRender);
         R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_OFF;
     }
 
@@ -1256,9 +1253,6 @@ void Play_DrawMain(PlayState* this) {
 
         if (R_PAUSE_BG_PRERENDER_STATE == PAUSE_BG_PRERENDER_PROCESS) {
             Sched_FlushTaskQueue();
-            if (!gSaveContext.screenScaleFlag) {
-                PreRender_ApplyFiltersSlowlyInit(&this->pauseBgPreRender);
-            }
             R_PAUSE_BG_PRERENDER_STATE = PAUSE_BG_PRERENDER_READY;
             SREG(33) |= 1;
         } else {
