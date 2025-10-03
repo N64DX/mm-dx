@@ -4793,7 +4793,11 @@ void Interface_DrawClock(PlayState* play) {
 
                 Matrix_Translate(0.0f, -86.0f, 0.0f, MTXMODE_NEW);
                 Matrix_Scale(1.0f, 1.0f, sThreeDayClockStarMinuteScale, MTXMODE_APPLY);
-                Matrix_RotateZF(-(timeInSeconds * 0.0175f) / 10.0f, MTXMODE_APPLY);
+                // @recomp
+                // The original code is `Matrix_RotateZF(-(timeInSeconds * 0.0175f) / 10.0f, MTXMODE_APPLY);`, where 0.0175f is being used
+                // to convert degrees to radians. However, the correct value is PI/180 which is approximately 0.0174533f, and the difference is enough
+                // to cause the clock to overshoot when reaching an hour mark.
+                Matrix_RotateZF(-(timeInSeconds * ((f32)M_PI) / 180.0f) / 10.0f, MTXMODE_APPLY);
 
                 MATRIX_FINALIZE_AND_LOAD(OVERLAY_DISP++, play->state.gfxCtx);
                 gSPVertex(OVERLAY_DISP++, &interfaceCtx->actionVtx[12], 4, 0);
