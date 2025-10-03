@@ -17417,9 +17417,11 @@ void Player_Action_63(Player* this, PlayState* play) {
           (this->skelAnime.animation == D_8085D17C[this->transformation])) ||
          ((this->skelAnime.mode == ANIMMODE_LOOP) && (this->av2.actionVar2 == 0)))) {
         func_808525C4(play, this);
-        if (!(this->actor.flags & ACTOR_FLAG_OCARINA_INTERACTION) ||
-            (this->ocarinaInteractionActor->id == ACTOR_EN_ZOT)) {
-            Message_DisplayOcarinaStaff(play, OCARINA_ACTION_FREE_PLAY);
+        // @recomp Fix the bug where ocarina inputs are discarded for 3 frames by only running this on the first frame of this state. 
+        if (this->av2.actionVar2 == 1) {
+            if (!(this->actor.flags & ACTOR_FLAG_OCARINA_INTERACTION) || (this->ocarinaInteractionActor->id == ACTOR_EN_ZOT)) {
+                Message_DisplayOcarinaStaff(play, OCARINA_ACTION_FREE_PLAY);
+            }
         }
     } else if (this->av2.actionVar2 != 0) {
         if (play->msgCtx.ocarinaMode == OCARINA_MODE_END) {
