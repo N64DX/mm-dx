@@ -549,7 +549,7 @@ void Fault_Wait5Seconds(void) {
         Fault_Sleep(1000 / 60);
     } while ((osGetTime() - start) <= OS_USEC_TO_CYCLES(5 * 1000 * 1000));
 
-    sFaultInstance->autoScroll = true;
+    sFaultInstance->autoScroll = false;
 }
 
 /**
@@ -706,7 +706,7 @@ void Fault_DrawMemDump(uintptr_t pc, uintptr_t sp, uintptr_t cLeftJump, uintptr_
     } while (!CHECK_BTN_ALL(input->press.button, BTN_L));
 
     // Resume auto-scroll and move to next page
-    sFaultInstance->autoScroll = true;
+    sFaultInstance->autoScroll = false;
 }
 
 /**
@@ -1023,11 +1023,10 @@ void Fault_ThreadEntry(void* arg) {
         } else {
             // Draw error bar signifying the crash screen is available
             Fault_DrawCornerRec(GPACK_RGBA5551(255, 0, 0, 1));
-            Fault_WaitForButtonCombo();
         }
 
         // Set auto-scrolling and default colors
-        sFaultInstance->autoScroll = true;
+        sFaultInstance->autoScroll = false;
         FaultDrawer_SetForeColor(GPACK_RGBA5551(255, 255, 255, 1));
         FaultDrawer_SetBackColor(GPACK_RGBA5551(0, 0, 0, 0));
 
@@ -1050,15 +1049,6 @@ void Fault_ThreadEntry(void* arg) {
             Fault_DrawMemDump(faultedThread->context.pc - 0x100, faultedThread->context.sp, 0, 0);
             Fault_DrawStackTrace(faultedThread, 1);
             Fault_LogStackTrace(faultedThread, 1);
-            Fault_WaitForInput();
-
-            // End page
-            Fault_FillScreenRed();
-            FaultDrawer_DrawText(64, 80, "    CONGRATURATIONS!    ");
-            FaultDrawer_DrawText(64, 90, "All Pages are displayed.");
-            FaultDrawer_DrawText(64, 100, "       THANK YOU!       ");
-            FaultDrawer_DrawText(64, 110, " You are great debugger!");
-            Fault_WaitForInput();
         } while (!sFaultInstance->exit);
 
         while (!sFaultInstance->exit) {}
