@@ -34,6 +34,7 @@ s16 sCurRow = 0;
 #define INV_EDITOR_SECTION_DUNGEON_ITEMS 80
 #define INV_EDITOR_SECTION_STRAY_FAIRIES 84
 #define INV_EDITOR_SECTION_DOUBLE_DEFENSE 88
+#define INV_EDITOR_SECTION_DOUBLE_MAGIC 89
 
 // Geometry of the highlights for the selected section
 typedef struct {
@@ -89,12 +90,8 @@ SectionPosition sSectionPositions[] = {
     { 202, 168, 22 }, { 223, 168, 22 }, { 244, 168, 22 }, { 265, 168, 22 },
     // Life (88)
     { 42, 202, 14 },
-    // Magic
+    // Magic (89)
     { 73, 202, 14 },
-    // Lottery
-    { 136, 202, 38 },
-    // Gold Color/Bombers Code (not highlighted properly)
-    { 214, 202, 74 }, { 214, 202, 74 },
 };
 // clang-format on
 
@@ -176,6 +173,7 @@ s16 sRowFirstSections[] = {
     INV_EDITOR_SECTION_DUNGEON_ITEMS,
     INV_EDITOR_SECTION_STRAY_FAIRIES,
     INV_EDITOR_SECTION_DOUBLE_DEFENSE,
+    INV_EDITOR_SECTION_DOUBLE_MAGIC,
 };
 
 void KaleidoScope_DrawInventoryEditorText(Gfx** gfxP) {
@@ -607,9 +605,8 @@ void KaleidoScope_DrawInventoryEditor(PlayState* play) {
     // Double Defense
     KaleidoScope_DrawDigit(play, gSaveContext.save.saveInfo.playerData.doubleDefense, 44, 202);
 
-    // Magic
-    //! @bug should be gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired
-    KaleidoScope_DrawDigit(play, gSaveContext.save.saveInfo.playerData.doubleDefense, 75, 202);
+    // Double Magic
+    KaleidoScope_DrawDigit(play, gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired, 75, 202);
 
     // Lottery
     // Loop over columns (i), (counterDigits[1] stores rectLeft)
@@ -1076,7 +1073,7 @@ void KaleidoScope_UpdateInventoryEditor(PlayState* play) {
                     }
                 }
 
-            } else {
+            } else if (sCurSection < INV_EDITOR_SECTION_DOUBLE_MAGIC) {
                 // Double Defense
                 if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT) ||
                     CHECK_BTN_ALL(input->press.button, BTN_CDOWN) || CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
@@ -1085,6 +1082,41 @@ void KaleidoScope_UpdateInventoryEditor(PlayState* play) {
                         gSaveContext.save.saveInfo.inventory.defenseHearts = 0;
                     } else {
                         gSaveContext.save.saveInfo.inventory.defenseHearts = 20;
+                    }
+                }
+
+            } else {
+                // Double Magic
+                if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT) ||
+                    CHECK_BTN_ALL(input->press.button, BTN_CDOWN) || CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
+                    // Upgrade to double magic
+                    if (!gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired){
+                        if (!gSaveContext.save.saveInfo.playerData.isMagicAcquired) {
+                            gSaveContext.save.saveInfo.playerData.isMagicAcquired = true;
+                        }
+                        gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired = true;
+                        gSaveContext.save.saveInfo.playerData.magic = MAGIC_DOUBLE_METER;
+                        gSaveContext.save.saveInfo.playerData.magicLevel = 0;
+                        R_MAGIC_DBG_SET_UPGRADE = MAGIC_DBG_SET_UPGRADE_NO_ACTION;
+                    }
+                    // Downgrade to normal magic
+                    else {
+                        if (!gSaveContext.save.saveInfo.playerData.isMagicAcquired) {
+                            gSaveContext.save.saveInfo.playerData.isMagicAcquired = true;
+                        }
+                        gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired = false;
+                        gSaveContext.save.saveInfo.playerData.magic = MAGIC_NORMAL_METER;
+                        gSaveContext.save.saveInfo.playerData.magicLevel = 0;
+                        R_MAGIC_DBG_SET_UPGRADE = MAGIC_DBG_SET_UPGRADE_NO_ACTION;
+                    }
+                    // Prepare to step `magicCapacity` to full capacity
+                    if ((gSaveContext.save.saveInfo.playerData.isMagicAcquired) &&
+                        (gSaveContext.save.saveInfo.playerData.magicLevel == 0)) {
+                        gSaveContext.save.saveInfo.playerData.magicLevel =
+                            gSaveContext.save.saveInfo.playerData.isDoubleMagicAcquired + 1;
+                        gSaveContext.magicFillTarget = gSaveContext.save.saveInfo.playerData.magic;
+                        gSaveContext.save.saveInfo.playerData.magic = 0;
+                        gSaveContext.magicState = MAGIC_STATE_STEP_CAPACITY;
                     }
                 }
             }
