@@ -1,3 +1,4 @@
+#include "config.h"
 #include "PR/ultratypes.h"
 
 #pragma increment_block_number "n64-us:128"
@@ -1186,10 +1187,12 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
         return;
     }
 
+#if DEBUG
     if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_DRIGHT)) {
         csCtx->state = CS_STATE_STOP;
         return;
     }
+#endif
 
     // Loop over every command list
     for (i = 0; i < totalEntries; i++) {
