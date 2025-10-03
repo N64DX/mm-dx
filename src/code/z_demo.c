@@ -1186,6 +1186,11 @@ void Cutscene_ProcessScript(PlayState* play, CutsceneContext* csCtx, u8* script)
         return;
     }
 
+    if (CHECK_BTN_ALL(play->state.input[0].press.button, BTN_DRIGHT)) {
+        csCtx->state = CS_STATE_STOP;
+        return;
+    }
+
     // Loop over every command list
     for (i = 0; i < totalEntries; i++) {
         // Read the command type of the current command list.
