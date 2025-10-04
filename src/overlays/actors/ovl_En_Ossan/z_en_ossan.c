@@ -4,6 +4,7 @@
  * Description: Trading Post Shop
  */
 
+#include "resolution.h"
 #include "z_en_ossan.h"
 #include "assets/objects/gameplay_keep/gameplay_keep.h"
 
@@ -1689,7 +1690,7 @@ void EnOssan_DrawStickDirectionPrompts(PlayState* play, EnOssan* this) {
         if (drawStickRightPrompt) {
             EnOssan_DrawTextRec(play, this->stickLeftPrompt.arrowColor.r, this->stickLeftPrompt.arrowColor.g,
                                 this->stickLeftPrompt.arrowColor.b, this->stickLeftPrompt.arrowColor.a,
-                                this->stickLeftPrompt.arrowTexX, this->stickLeftPrompt.arrowTexY,
+                                this->stickLeftPrompt.arrowTexX + WS_SHIFT_FULL, this->stickLeftPrompt.arrowTexY,
                                 this->stickLeftPrompt.texZ, 0, 0, -1.0f, 1.0f);
         }
         if (drawStickLeftPrompt) {
@@ -1704,7 +1705,7 @@ void EnOssan_DrawStickDirectionPrompts(PlayState* play, EnOssan* this) {
         if (drawStickRightPrompt) {
             EnOssan_DrawTextRec(play, this->stickLeftPrompt.stickColor.r, this->stickLeftPrompt.stickColor.g,
                                 this->stickLeftPrompt.stickColor.b, this->stickLeftPrompt.stickColor.a,
-                                this->stickLeftPrompt.stickTexX, this->stickLeftPrompt.stickTexY,
+                                this->stickLeftPrompt.stickTexX + WS_SHIFT_FULL, this->stickLeftPrompt.stickTexY,
                                 this->stickLeftPrompt.texZ, 0, 0, -1.0f, 1.0f);
         }
         if (drawStickLeftPrompt) {

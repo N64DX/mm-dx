@@ -4,6 +4,7 @@
  * Description: Unused OoT Saria's Song Ocarina Effect
  */
 
+#include "resolution.h"
 #include "z_oceff_wipe3.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
@@ -68,9 +69,9 @@ void OceffWipe3_Draw(Actor* thisx, PlayState* play) {
     vtxPtr = sSariaSongFrustumVtx;
 
     if (this->counter < 32) {
-        z = Math_SinS(this->counter * 512) * 1220.0f;
+        z = Math_SinS(this->counter * 512) * (1220.0f - OCEFF_SHIFT);
     } else {
-        z = 1220.0f;
+        z = 1220.0f - OCEFF_SHIFT;
     }
 
     if (this->counter >= 80) {

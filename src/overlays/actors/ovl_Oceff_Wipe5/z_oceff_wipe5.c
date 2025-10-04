@@ -4,6 +4,7 @@
  * Description: Sonata/Lullaby/Bossa Nova/Elegy/Oath Ocarina Effect
  */
 
+#include "resolution.h"
 #include "z_oceff_wipe5.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
@@ -74,7 +75,7 @@ void OceffWipe5_Draw(Actor* thisx, PlayState* play) {
     Vec3f quakeOffset;
     u8 alpha;
     s32 colorIndex = OCEFF_WIPE5_GET_SONG_TYPE(thisx) * 3;
-    f32 phi_fv1 = 1220.0f;
+    f32 phi_fv1 = 1220.0f - OCEFF_SHIFT;
 
     if ((((OCEFF_WIPE5_GET_SONG_TYPE(thisx) == 2) && (play->sceneId == SCENE_LABO)) &&
          ((play->csCtx.scriptIndex == 0) || (play->csCtx.scriptIndex == 1))) &&

@@ -1,6 +1,7 @@
 /*
  * ROM spec file
  */
+#include "include/resolution.h"
 
 beginseg
     name "framebuffer_lo"
@@ -783,7 +784,11 @@ beginseg
     name "framebuffer_hi"
     flags NOLOAD
     // This has to be fixed location in VRAM. See the FRAMEBUFFERS_START_ADDR define on `buffers.h` for a more in-depth explanation
+#if WIDESCREEN
+    address 0x80773D00
+#else
     address 0x80780000
+#endif
     include "$(BUILD_DIR)/src/buffers/framebuffer_hi.o"
 endseg
 

@@ -4,6 +4,7 @@
  * Description: Epona's Song Ocarina Effect
  */
 
+#include "resolution.h"
 #include "z_oceff_wipe2.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
@@ -68,9 +69,9 @@ void OceffWipe2_Draw(Actor* thisx, PlayState* play) {
     vtxPtr = sEponaSongFrustumVtx;
 
     if (this->timer < 32) {
-        z = Math_SinS(this->timer * 0x200) * 1220.0f;
+        z = Math_SinS(this->timer * 0x200) * (1220.0f - OCEFF_SHIFT);
     } else {
-        z = 1220.0f;
+        z = 1220.0f - OCEFF_SHIFT;
     }
 
     if (this->timer >= 80) {

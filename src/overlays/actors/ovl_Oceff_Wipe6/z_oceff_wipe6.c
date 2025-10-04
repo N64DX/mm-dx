@@ -4,6 +4,7 @@
  * Description: Song of Soaring Ocarina Effect
  */
 
+#include "resolution.h"
 #include "z_oceff_wipe6.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
@@ -64,9 +65,9 @@ void OceffWipe6_Draw(Actor* thisx, PlayState* play) {
 
     if (this->counter < 32) {
         counter = this->counter;
-        z = Math_SinS(counter * 0x200) * 1220.0f;
+        z = Math_SinS(counter * 0x200) * (1220.0f - OCEFF_SHIFT);
     } else {
-        z = 1220.0f;
+        z = 1220.0f - OCEFF_SHIFT;
     }
 
     if (this->counter >= 80) {

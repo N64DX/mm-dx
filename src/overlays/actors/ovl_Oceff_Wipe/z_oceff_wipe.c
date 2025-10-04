@@ -4,6 +4,7 @@
  * Description: Song of Time Ocarina Effect
  */
 
+#include "resolution.h"
 #include "z_oceff_wipe.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
@@ -74,9 +75,9 @@ void OceffWipe_Draw(Actor* thisx, PlayState* play) {
     OPEN_DISPS(play->state.gfxCtx);
 
     if (this->counter < 32) {
-        z = Math_SinS(this->counter << 9) * 1360.0f;
+        z = Math_SinS(this->counter << 9) * (1360.0f - SONG_OF_TIME_SHIFT);
     } else {
-        z = 1360.0f;
+        z = 1360.0f - SONG_OF_TIME_SHIFT;
     }
 
     if (this->counter >= 80) {

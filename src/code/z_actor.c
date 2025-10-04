@@ -3,6 +3,7 @@
  * Description:
  */
 
+#include "resolution.h"
 #include "fault.h"
 #include "attributes.h"
 #include "sys_cfb.h"
@@ -932,7 +933,7 @@ void TitleCard_Draw(GameState* gameState, TitleCardContext* titleCtx) {
         s32 width = titleCtx->width;
         s32 height = titleCtx->height;
         s32 doubleWidth = width * 2;
-        s32 titleX = (titleCtx->x * 4) - doubleWidth;
+        s32 titleX = ((titleCtx->x + WS_SHIFT_HALF) * 4) - doubleWidth;
         s32 doubleHeight = height * 2;
         s32 titleY = (titleCtx->y * 4) - doubleHeight;
         s32 titleSecondY;

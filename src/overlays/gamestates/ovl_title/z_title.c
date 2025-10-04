@@ -4,6 +4,7 @@
  * Description: Nintendo 64 logo shown on startup
  */
 
+#include "resolution.h"
 #include "z_title.h"
 #include "z64shrink_window.h"
 #include "z64view.h"
@@ -108,7 +109,7 @@ void ConsoleLogo_Draw(GameState* thisx) {
                             G_TX_NOLOD, G_TX_NOLOD);
 
         gDPSetTileSize(POLY_OPA_DISP++, 1, this->uls, (this->ult & 0x7F) - idx * 4, 0, 0);
-        gSPTextureRectangle(POLY_OPA_DISP++, 97 << 2, y << 2, (97 + 192) << 2, (y + 2) << 2, G_TX_RENDERTILE, 0, 0,
+        gSPTextureRectangle(POLY_OPA_DISP++, (97 + WS_SHIFT_HALF) << 2, y << 2, (97 + 192 + WS_SHIFT_HALF) << 2, (y + 2) << 2, G_TX_RENDERTILE, 0, 0,
                             1 << 10, 1 << 10);
     }
 

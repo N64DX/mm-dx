@@ -1,3 +1,4 @@
+#include "resolution.h"
 #include "global.h"
 #include "PR/gs2dex.h"
 #include "sys_cfb.h"
@@ -6222,7 +6223,7 @@ void Interface_DrawMinigameIcons(PlayState* play) {
                     gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->aAlpha);
                 }
 
-                gSPTextureRectangle(OVERLAY_DISP++, rectX << 2, rectY << 2, (rectX + 16) << 2, (rectY + 16) << 2,
+                gSPTextureRectangle(OVERLAY_DISP++, (rectX + WS_SHIFT_HALF) << 2, rectY << 2, (rectX + 16 + WS_SHIFT_HALF) << 2, (rectY + 16) << 2,
                                     G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
             }
         }
@@ -6662,34 +6663,34 @@ void Interface_Draw(PlayState* play) {
         gDPLoadTextureBlock_4b(OVERLAY_DISP++, gPictoBoxFocusBorderTex, G_IM_FMT_IA, 16, 16, 0, G_TX_MIRROR | G_TX_WRAP,
                                G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, R_PICTO_FOCUS_BORDER_TOPLEFT_X << 2, R_PICTO_FOCUS_BORDER_TOPLEFT_Y << 2,
-                            (R_PICTO_FOCUS_BORDER_TOPLEFT_X << 2) + (16 << 2),
+        gSPTextureRectangle(OVERLAY_DISP++, (R_PICTO_FOCUS_BORDER_TOPLEFT_X + WS_SHIFT_HALF) << 2, R_PICTO_FOCUS_BORDER_TOPLEFT_Y << 2,
+                            (R_PICTO_FOCUS_BORDER_TOPLEFT_X << 2) + (16 << 2) + (WS_SHIFT_HALF << 2),
                             (R_PICTO_FOCUS_BORDER_TOPLEFT_Y << 2) + (16 << 2), G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
-        gSPTextureRectangle(OVERLAY_DISP++, R_PICTO_FOCUS_BORDER_TOPRIGHT_X << 2, R_PICTO_FOCUS_BORDER_TOPRIGHT_Y << 2,
-                            (R_PICTO_FOCUS_BORDER_TOPRIGHT_X << 2) + (16 << 2),
+        gSPTextureRectangle(OVERLAY_DISP++, (R_PICTO_FOCUS_BORDER_TOPRIGHT_X + WS_SHIFT_HALF) << 2, R_PICTO_FOCUS_BORDER_TOPRIGHT_Y << 2,
+                            (R_PICTO_FOCUS_BORDER_TOPRIGHT_X << 2) + (16 << 2) + (WS_SHIFT_HALF << 2),
                             (R_PICTO_FOCUS_BORDER_TOPRIGHT_Y << 2) + (16 << 2), G_TX_RENDERTILE, 512, 0, 1 << 10,
                             1 << 10);
         gSPTextureRectangle(
-            OVERLAY_DISP++, R_PICTO_FOCUS_BORDER_BOTTOMLEFT_X << 2, R_PICTO_FOCUS_BORDER_BOTTOMLEFT_Y << 2,
-            (R_PICTO_FOCUS_BORDER_BOTTOMLEFT_X << 2) + (16 << 2), (R_PICTO_FOCUS_BORDER_BOTTOMLEFT_Y << 2) + (16 << 2),
+            OVERLAY_DISP++, (R_PICTO_FOCUS_BORDER_BOTTOMLEFT_X + WS_SHIFT_HALF) << 2, R_PICTO_FOCUS_BORDER_BOTTOMLEFT_Y << 2,
+            (R_PICTO_FOCUS_BORDER_BOTTOMLEFT_X << 2) + (16 << 2) + (WS_SHIFT_HALF << 2), (R_PICTO_FOCUS_BORDER_BOTTOMLEFT_Y << 2) + (16 << 2),
             G_TX_RENDERTILE, 0, 512, 1 << 10, 1 << 10);
         gSPTextureRectangle(
-            OVERLAY_DISP++, R_PICTO_FOCUS_BORDER_BOTTOMRIGHT_X << 2, R_PICTO_FOCUS_BORDER_BOTTOMRIGHT_Y << 2,
-            (R_PICTO_FOCUS_BORDER_BOTTOMRIGHT_X << 2) + (16 << 2),
+            OVERLAY_DISP++, (R_PICTO_FOCUS_BORDER_BOTTOMRIGHT_X + WS_SHIFT_HALF) << 2, R_PICTO_FOCUS_BORDER_BOTTOMRIGHT_Y << 2,
+            (R_PICTO_FOCUS_BORDER_BOTTOMRIGHT_X << 2) + (16 << 2) + (WS_SHIFT_HALF << 2),
             (R_PICTO_FOCUS_BORDER_BOTTOMRIGHT_Y << 2) + (16 << 2), G_TX_RENDERTILE, 512, 512, 1 << 10, 1 << 10);
 
         gDPLoadTextureBlock_4b(OVERLAY_DISP++, gPictoBoxFocusIconTex, G_IM_FMT_I, 32, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, R_PICTO_FOCUS_ICON_X << 2, R_PICTO_FOCUS_ICON_Y << 2,
-                            (R_PICTO_FOCUS_ICON_X << 2) + (32 << 2), (R_PICTO_FOCUS_ICON_Y << 2) + (16 << 2),
+        gSPTextureRectangle(OVERLAY_DISP++, (R_PICTO_FOCUS_ICON_X + WS_SHIFT_HALF) << 2, R_PICTO_FOCUS_ICON_Y << 2,
+                            (R_PICTO_FOCUS_ICON_X << 2) + (32 << 2) + (WS_SHIFT_HALF << 2), (R_PICTO_FOCUS_ICON_Y << 2) + (16 << 2),
                             G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
 
         gDPLoadTextureBlock_4b(OVERLAY_DISP++, gPictoBoxFocusTextTex, G_IM_FMT_I, 32, 8, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(OVERLAY_DISP++, R_PICTO_FOCUS_TEXT_X << 2, R_PICTO_FOCUS_TEXT_Y << 2,
-                            (R_PICTO_FOCUS_TEXT_X << 2) + (32 << 2), (R_PICTO_FOCUS_TEXT_Y << 2) + (8 << 2),
+        gSPTextureRectangle(OVERLAY_DISP++, (R_PICTO_FOCUS_TEXT_X + WS_SHIFT_HALF) << 2, R_PICTO_FOCUS_TEXT_Y << 2,
+                            (R_PICTO_FOCUS_TEXT_X << 2) + (32 << 2) + (WS_SHIFT_HALF << 2), (R_PICTO_FOCUS_TEXT_Y << 2) + (8 << 2),
                             G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     }
 
@@ -6719,7 +6720,7 @@ void Interface_Draw(PlayState* play) {
             gDPSetRenderMode(OVERLAY_DISP++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 200, 200, 250);
-            gDPFillRectangle(OVERLAY_DISP++, 70, 22, 251, 151);
+            gDPFillRectangle(OVERLAY_DISP++, 70 + WS_SHIFT_HALF, 22, 251 + WS_SHIFT_HALF, 151);
 
             Gfx_SetupDL39_Overlay(play->state.gfxCtx);
 

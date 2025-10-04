@@ -4,6 +4,7 @@
  * Description: Scarecrow's Song Ocarina Effect
  */
 
+#include "resolution.h"
 #include "z_oceff_wipe4.h"
 
 #define FLAGS (ACTOR_FLAG_UPDATE_CULLING_DISABLED | ACTOR_FLAG_UPDATE_DURING_OCARINA)
@@ -66,9 +67,9 @@ void OceffWipe4_Draw(Actor* thisx, PlayState* play) {
     Vec3f quakeOffset = Camera_GetQuakeOffset(GET_ACTIVE_CAM(play));
 
     if (this->counter < 16) {
-        z = Math_SinS(this->counter * 0x400) * 1220.0f;
+        z = Math_SinS(this->counter * 0x400) * (1220.0f - OCEFF_SHIFT);
     } else {
-        z = 1220.0f;
+        z = 1220.0f - OCEFF_SHIFT;
     }
 
     vtxPtr = sScarecrowSongFrustumVtx;

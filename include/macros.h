@@ -1,9 +1,9 @@
 #ifndef MACROS_H
 #define MACROS_H
 
+#include "resolution.h"
 #include "PR/ultratypes.h"
 
-#define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
 #define SCREEN_WIDTH_HIRES 640
 #define SCREEN_HEIGHT_HIRES 480

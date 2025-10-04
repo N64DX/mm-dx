@@ -1,3 +1,4 @@
+#include "resolution.h"
 #include "PR/os.h"
 #include "PR/rcp.h"
 #include "PR/viint.h"
@@ -8,19 +9,19 @@ OSViMode osViModeMpalLan1 = {
         // comRegs
         VI_CTRL_TYPE_16 | VI_CTRL_GAMMA_DITHER_ON | VI_CTRL_GAMMA_ON | VI_CTRL_DIVOT_ON | VI_CTRL_ANTIALIAS_MODE_1 |
             VI_CTRL_PIXEL_ADV_3, // ctrl
-        WIDTH(320),              // width
+        WIDTH(SCREEN_WIDTH),     // width
         BURST(57, 30, 5, 70),    // burst
         VSYNC(525),              // vSync
         HSYNC(3089, 4),          // hSync
         LEAP(3097, 3098),        // leap
         HSTART(108, 748),        // hStart
-        SCALE(2, 0),             // xScale
+        (SCREEN_WIDTH*512)/320,  // xScale
         VCURRENT(0),             // vCurrent
     },
     { // fldRegs
       {
           // [0]
-          ORIGIN(640),        // origin
+          ORIGIN(SCREEN_WIDTH * 2),  // origin
           SCALE(1, 0),        // yScale
           START(37, 511),     // vStart
           BURST(4, 2, 14, 0), // vBurst
@@ -28,7 +29,7 @@ OSViMode osViModeMpalLan1 = {
       },
       {
           // [1]
-          ORIGIN(640),        // origin
+          ORIGIN(SCREEN_WIDTH * 2),  // origin
           SCALE(1, 0),        // yScale
           START(37, 511),     // vStart
           BURST(4, 2, 14, 0), // vBurst

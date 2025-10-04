@@ -1,3 +1,4 @@
+#include "resolution.h"
 #include "global.h"
 #include "sys_cfb.h"
 #include "sys_cmpdma.h"
