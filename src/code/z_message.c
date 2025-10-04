@@ -1,3 +1,4 @@
+#include "resolution.h"
 #include "z64message.h"
 #include "global.h"
 

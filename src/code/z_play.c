@@ -1,3 +1,4 @@
+#include "resolution.h"
 #include "PR/ultratypes.h"
 
 // Variables are put before most headers as a hacky way to bypass bss reordering

@@ -8,14 +8,14 @@
 #include "z64save.h"
 
 typedef union {
-    u16 framebufferHiRes[HIRES_BUFFER_HEIGHT][HIRES_BUFFER_WIDTH] ALIGNED(64);
+    u16 framebufferHiRes[HIRES_BUFFER_HEIGHT][HIRES_BUFFER_WIDTH] ALIGNED(64); // size = 0x7FB00 (minimum size of the union)
     struct {
-        u16 framebuffer[SCREEN_HEIGHT][SCREEN_WIDTH] ALIGNED(64);
-        u8 skyboxBuffer[0x5A360] ALIGNED(16);
+        u16 framebuffer[SCREEN_HEIGHT][SCREEN_WIDTH] ALIGNED(64); // DEFAULT: 0x25800, WIDESCREEN: 0x31B00
+        u8 skyboxBuffer[0x5A360 - BUFFER_INCREASE] ALIGNED(16); // The minimum needed here is only 0x18000, but minimum gLoBuffer size is determined by framebufferHiRes size
     };
-} BufferLow;
+} BufferLow; // framebuffer + skyboxBuffer combined can't be larger than the original 0x7FB60 (boot address is at 0x80000500 + 0x7FB60 = 0x80080060)
 
-extern BufferLow gLoBuffer;
+extern BufferLow gLoBuffer; // 0x80000500 - framebuffer_lo
 
 
 extern u64 gGfxSPTaskYieldBuffer[OS_YIELD_DATA_SIZE / sizeof(u64)];
@@ -25,15 +25,15 @@ extern u8 gAudioHeap[0x138000];
 
 
 typedef union {
-    u16 framebufferHiRes[HIRES_BUFFER_HEIGHT][HIRES_BUFFER_WIDTH] ALIGNED(64);
+    u16 framebufferHiRes[HIRES_BUFFER_HEIGHT][HIRES_BUFFER_WIDTH] ALIGNED(64); // size = 0x7FB00 (minimum size of the union)
     struct {
-        u8 pictoPhotoI8[PICTO_PHOTO_SIZE] ALIGNED(64);
-        u8 D_80784600[0x56200] ALIGNED(64);
-        u16 framebuffer[SCREEN_HEIGHT][SCREEN_WIDTH] ALIGNED(64);
+        u8 pictoPhotoI8[PICTO_PHOTO_SIZE] ALIGNED(64); // 0x4600
+        u8 D_80784600[0x56200] ALIGNED(64); // 0x56200 - Lens, pause background, shrinking screen
+        u16 framebuffer[SCREEN_HEIGHT][SCREEN_WIDTH] ALIGNED(64); // DEFAULT: 0x25800, WIDESCREEN: 0x31B00
     };
-} BufferHigh;
+} BufferHigh; // DEFAULT: 0x8000, WIDESCREEN: 0x8C300
 
-extern BufferHigh gHiBuffer;
+extern BufferHigh gHiBuffer; // DEFAULT: 0x80780000, WIDESCREEN: 0x80773D00 - framebuffer_hi
 
 #ifndef FRAMEBUFFERS_START_ADDR
 /**
@@ -52,7 +52,6 @@ extern BufferHigh gHiBuffer;
  */
 #define FRAMEBUFFERS_START_ADDR (PHYS_TO_K0(0x800000) - sizeof(BufferHigh))
 
-static_assert(FRAMEBUFFERS_START_ADDR == 0x80780000, "The expected address of gHiBuffer shifted. Please update said address in buffers.h and in the spec file.");
 #endif
 
 
