@@ -294,7 +294,11 @@ void BombersNotebook_DrawScisTexRect(Gfx** gfxP, s32 rxl, s32 ryl, s32 rxh, s32 
     s32 yh = ryh - (gCfbUpperAdjust * 4);
     Gfx* gfx = *gfxP;
 
+#if NOTEBOOK_LORES
+    gSPScisTextureRectangle(gfx++, (xl / 2), (yl / 2), (xh / 2), (yh / 2), tile, s, t, (dsdx * 2), (dtdy * 2));
+#else
     gSPScisTextureRectangle(gfx++, xl, yl, xh, yh, tile, s, t, dsdx, dtdy);
+#endif
 
     *gfxP = gfx;
 }
@@ -1079,7 +1083,7 @@ void BombersNotebook_Draw(BombersNotebook* this, GraphicsContext* gfxCtx) {
         gDPLoadTextureBlock(gfx++, gBombersNotebookBackgroundTex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
-        BombersNotebook_DrawScisTexRect(&gfx, 0 * 4, 0 * 4, SCREEN_WIDTH_HIRES * 4, SCREEN_HEIGHT_HIRES * 4, 0, 0, 0,
+        BombersNotebook_DrawScisTexRect(&gfx, 0 * 4, 0 * 4, SCREEN_WIDTH * 8, SCREEN_HEIGHT * 8, 0, 0, 0,
                                         0x200, 0x200);
 
         gDPPipeSync(gfx++);
@@ -1089,7 +1093,11 @@ void BombersNotebook_Draw(BombersNotebook* this, GraphicsContext* gfxCtx) {
         BombersNotebook_DrawHeaders(&gfx);
         BombersNotebook_DrawColumns(&gfx);
 
+#if NOTEBOOK_LORES
+        gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 48, 600, 450);
+#else
         gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 86, 600, 450);
+#endif
         BombersNotebook_DrawRows(this, &gfx);
 
         gDPPipeSync(gfx++);
