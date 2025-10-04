@@ -75,7 +75,7 @@ void SysCfb_SetHiResMode(void) {
     gScreenWidth = gCfbWidth;
     gScreenHeight = gCfbHeight;
 
-    if ((gCfbWidth == SCREEN_WIDTH_HIRES) && (gCfbHeight == SCREEN_HEIGHT_HIRES)) {
+    if ((gCfbWidth == SCREEN_WIDTH) && (gCfbHeight == SCREEN_HEIGHT)) {
         gActiveViMode = &osViModeNtscHpf1;
     } else {
         s32 leftAdjust;
@@ -88,8 +88,8 @@ void SysCfb_SetHiResMode(void) {
         } else {
             leftAdjust = 30;
             upperAdjust = 10;
-            rightAdjust = gCfbWidth - (SCREEN_WIDTH_HIRES - leftAdjust);
-            lowerAdjust = gCfbHeight - (SCREEN_HEIGHT_HIRES - upperAdjust);
+            rightAdjust = gCfbWidth - (SCREEN_WIDTH - leftAdjust);
+            lowerAdjust = gCfbHeight - (SCREEN_HEIGHT - upperAdjust);
         }
 
         ViMode_Configure(&sNotebookViMode, -1, osTvType, false, true, false, true, gCfbWidth, gCfbHeight, leftAdjust,

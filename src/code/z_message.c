@@ -987,7 +987,7 @@ void Message_DrawItemIcon(PlayState* play, Gfx** gfxP) {
     if (!play->pauseCtx.bombersNotebookOpen) {
         msgCtx->textPosX += 16;
     } else {
-        msgCtx->textPosX += 50;
+        msgCtx->textPosX += 50; // icon padding-right (only affects first line of text)
     }
     *gfxP = gfx;
 }
@@ -1895,8 +1895,8 @@ void Message_LoadItemIcon(PlayState* play, u16 itemId, s16 arg2) {
     }
 
     if (play->pauseCtx.bombersNotebookOpen) {
-        msgCtx->unk12010 = ((msgCtx->unk12010 * 1.4f) + 2.0f);
-        msgCtx->unk12014 = (msgCtx->unk12014 * 1.4f);
+        msgCtx->unk12010 = (((msgCtx->unk12010 * 1.4f) + 2.0f) * 3) + 5.0f; // icon x position
+        msgCtx->unk12014 = (msgCtx->unk12014 * 1.4f / 2); // icon size
     }
 
     msgCtx->choiceNum = 1;
@@ -3154,15 +3154,15 @@ void Message_OpenText(PlayState* play, u16 textId) {
 
     if (play->pauseCtx.bombersNotebookOpen) {
         if (gSaveContext.options.language == LANGUAGE_JPN) {
-            msgCtx->textCharScale = 1.4f;
-            msgCtx->unk11FFC = 0x1E;
-            msgCtx->unk11FF8 = 0x32;
-            var_fv0 = 1.4;
+            msgCtx->textCharScale = 1.4f / 2;
+            msgCtx->unk11FFC = 0x1E / 2; // line height JPN
+            msgCtx->unk11FF8 = 0x32 / 2; // icon + text x position JPN
+            var_fv0 = 1.4 / 2; // icon scale JPN
         } else {
-            msgCtx->textCharScale = 1.4f;
-            msgCtx->unk11FFC = 0x16;
-            msgCtx->unk11FF8 = 0x32;
-            var_fv0 = 1.4;
+            msgCtx->textCharScale = 1.4f / 2;
+            msgCtx->unk11FFC = 0x16 / 2; // line height
+            msgCtx->unk11FF8 = 0x32 / 2; // icon + text x position
+            var_fv0 = 1.4 / 2; // icon scale
         }
     } else if (textId >= 0x4E20) {
         msgCtx->textIsCredits = true;
@@ -3354,8 +3354,8 @@ void Message_ContinueTextbox(PlayState* play, u16 textId) {
     msgCtx->textboxColorAlphaCurrent = msgCtx->textboxColorAlphaTarget;
 
     if (play->pauseCtx.bombersNotebookOpen) {
-        msgCtx->textboxXTarget = 34;
-        msgCtx->textboxYTarget = 350;
+        msgCtx->textboxXTarget = 34 * 2;
+        msgCtx->textboxYTarget = 350 / 2;
         Message_GrowTextbox(play);
         msgCtx->stateTimer = 1;
     }
@@ -3733,6 +3733,10 @@ void Message_DrawTextBox(PlayState* play, Gfx** gfxP) {
         gSPTextureRectangle(gfx++, msgCtx->textboxX << 2, (msgCtx->textboxY + 22) << 2,
                             (msgCtx->textboxX + msgCtx->unk12008) << 2, (msgCtx->textboxY + 54) << 2, G_TX_RENDERTILE,
                             0, 6, msgCtx->unk1200C << 1, 2 << 10);
+    } else if (play->pauseCtx.bombersNotebookOpen) { // textbox background
+        gSPTextureRectangle(gfx++, (msgCtx->textboxX << 2) / 2, (((msgCtx->textboxY) << 2) / 2) + 372,
+                            ((msgCtx->textboxX + sTextboxWidth) << 2) / 2, (((msgCtx->textboxY + sTextboxHeight) << 2) / 2) + 372,
+                            G_TX_RENDERTILE, 0, 0, sTextboxTexWidth * 2, sTextboxTexHeight * 2);
     } else {
         gSPTextureRectangle(gfx++, msgCtx->textboxX << 2, (msgCtx->textboxY) << 2,
                             (msgCtx->textboxX + sTextboxWidth) << 2, (msgCtx->textboxY + sTextboxHeight) << 2,
