@@ -1440,6 +1440,7 @@ SkipPostWorldDraw:
 void Play_Draw(PlayState* this) {
     GraphicsContext* gfxCtx = this->state.gfxCtx;
 
+#if !NOTEBOOK_LORES
     {
         GraphicsContext* gfxCtx2 = this->state.gfxCtx;
 
@@ -1469,6 +1470,7 @@ void Play_Draw(PlayState* this) {
             }
         }
     }
+#endif
 
     if (sBombersNotebookOpen && ((SREG(2) != 2) || (gZBufferPtr == NULL))) {
         BombersNotebook_Draw(&sBombersNotebook, gfxCtx);
