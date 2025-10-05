@@ -19,19 +19,10 @@ u16 (*gWorkBufferLoRes)[SCREEN_WIDTH * SCREEN_HEIGHT];
 u64 (*gGfxSPTaskOutputBufferLoRes)[0x3000];
 void* gGfxSPTaskOutputBufferEndLoRes;
 
-void* sCfbHiRes1;
-void* sCfbHiRes0;
-u16 (*gZBufferHiRes)[HIRES_BUFFER_WIDTH * HIRES_BUFFER_HEIGHT];
-u16 (*gWorkBufferHiRes)[HIRES_BUFFER_WIDTH * HIRES_BUFFER_HEIGHT];
-u64 (*gGfxSPTaskOutputBufferHiRes)[0x3000];
-void* gGfxSPTaskOutputBufferEndHiRes;
-
 s16 gCfbWidth;
 s16 gCfbHeight;
 s16 gCfbLeftAdjust;
 s16 gCfbUpperAdjust;
-
-u8 gSysCfbHiResEnabled;
 
 #include "sys_cfb.h"
 #include "stdbool.h"
@@ -50,65 +41,15 @@ void SysCfb_SetLoResMode(void) {
     gCfbHeight = SCREEN_HEIGHT;
     gCfbLeftAdjust = 0;
     gCfbUpperAdjust = 0;
-    gSysCfbHiResEnabled = false;
     gScreenWidth = gCfbWidth;
     gScreenHeight = gCfbHeight;
     gActiveViMode = &osViModeNtscLan1;
-}
-
-void SysCfb_SetHiResMode(void) {
-    gFramebuffers[1] = sCfbHiRes1;
-    gFramebuffers[0] = sCfbHiRes0;
-    gZBufferPtr = *gZBufferHiRes;
-    gWorkBuffer = gWorkBufferHiRes;
-    gGfxSPTaskOutputBufferPtr = *gGfxSPTaskOutputBufferHiRes;
-    gGfxSPTaskOutputBufferEnd = gGfxSPTaskOutputBufferEndHiRes;
-
-    if (0) {
-        // Remnant of debug
-    } else {
-        gCfbWidth = HIRES_BUFFER_WIDTH;
-        gCfbHeight = HIRES_BUFFER_HEIGHT;
-        gCfbLeftAdjust = 30;
-        gCfbUpperAdjust = 10;
-    }
-    gScreenWidth = gCfbWidth;
-    gScreenHeight = gCfbHeight;
-
-    if ((gCfbWidth == SCREEN_WIDTH) && (gCfbHeight == SCREEN_HEIGHT)) {
-        gActiveViMode = &osViModeNtscHpf1;
-    } else {
-        s32 leftAdjust;
-        s32 rightAdjust;
-        s32 upperAdjust;
-        s32 lowerAdjust;
-
-        if (0) {
-            // Remnant of debug
-        } else {
-            leftAdjust = 30;
-            upperAdjust = 10;
-            rightAdjust = gCfbWidth - (SCREEN_WIDTH - leftAdjust);
-            lowerAdjust = gCfbHeight - (SCREEN_HEIGHT - upperAdjust);
-        }
-
-        ViMode_Configure(&sNotebookViMode, -1, osTvType, false, true, false, true, gCfbWidth, gCfbHeight, leftAdjust,
-                         rightAdjust, upperAdjust, lowerAdjust);
-        gActiveViMode = &sNotebookViMode;
-    }
-
-    gSysCfbHiResEnabled = true;
 }
 
 void SysCfb_Init(void) {
     do {
         sCfbLoRes1 = gLoBuffer.framebuffer;
         sCfbLoRes0 = gHiBuffer.framebuffer;
-    } while ((u64)0);
-
-    do {
-        sCfbHiRes1 = gLoBuffer.framebufferHiRes;
-        sCfbHiRes0 = gHiBuffer.framebufferHiRes;
     } while ((u64)0);
 
     SysCfb_SetLoResMode();

@@ -6,9 +6,6 @@
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
 
-#define HIRES_BUFFER_WIDTH  320
-#define HIRES_BUFFER_HEIGHT 240
-
 #define PROJECTED_TO_SCREEN_X(projectedPos, invW) ((projectedPos).x * (invW) * (SCREEN_WIDTH / 2) + (SCREEN_WIDTH / 2))
 #define PROJECTED_TO_SCREEN_Y(projectedPos, invW) ((projectedPos).y * (invW) * (-SCREEN_HEIGHT / 2) + (SCREEN_HEIGHT / 2))
 

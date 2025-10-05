@@ -8,7 +8,6 @@
 #include "z64save.h"
 
 typedef union {
-    u16 framebufferHiRes[HIRES_BUFFER_HEIGHT][HIRES_BUFFER_WIDTH] ALIGNED(64);
     struct {
         u16 framebuffer[SCREEN_HEIGHT][SCREEN_WIDTH] ALIGNED(64);
         u8 skyboxBuffer[0x5A360] ALIGNED(16);
@@ -25,7 +24,6 @@ extern u8 gAudioHeap[0x138000];
 
 
 typedef union {
-    u16 framebufferHiRes[HIRES_BUFFER_HEIGHT][HIRES_BUFFER_WIDTH] ALIGNED(64);
     struct {
         u8 pictoPhotoI8[PICTO_PHOTO_SIZE] ALIGNED(64);
         u8 D_80784600[0x56200] ALIGNED(64);
