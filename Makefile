@@ -587,7 +587,7 @@ endif
 	$(N64_EMULATOR) $<
 
 .PHONY: all rom compress clean assetclean distclean assets disasm init venv setup run
-.DEFAULT_GOAL := rom
+.DEFAULT_GOAL := all
 all: rom compress
 
 
