@@ -174,15 +174,3 @@ void VisMono_Draw(VisMono* this, Gfx** gfxP) {
 
     *gfxP = gfx;
 }
-
-void VisMono_DrawOld(VisMono* this) {
-    if (this->tlut == NULL) {
-        this->tlut = malloc(256 * G_IM_SIZ_16b_BYTES);
-        VisMono_DesaturateTLUT(this->tlut);
-    }
-
-    if (this->dList == NULL) {
-        this->dList = malloc(VISMONO_DLSIZE * sizeof(Gfx));
-        VisMono_DesaturateDList(this->dList);
-    }
-}
